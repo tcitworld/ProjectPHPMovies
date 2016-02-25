@@ -1,0 +1,6 @@
+tr:nth-child(odd) {
+	background-color: #58ACFA;
+}
+table {
+	border: 3px solid;
+}

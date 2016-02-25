@@ -1,0 +1,40 @@
+{% extends 'layout.twig' %}
+{% block title %}
+Index des films
+{% endblock %}
+{% block content %}
+<ul>
+	<li>
+		<a href="createForm">Créer un nouveau film</a>
+		<a href=""></a>
+	</li>
+</ul>
+
+Liste des films :
+<table>
+<tr>
+	<th>Titre français</th>
+	<th>Titre original</th>
+	<th>Couleur</th>
+	<th>Pays</th>
+	<th>Date</th>
+	<th>Durée</th>
+	<th>Editer</th>
+	<th>Supprimer</th>
+</tr>
+{% for film in films %}
+<tr class="row-{{ film.code_film }}">
+	<td contenteditable="true" >{{ film.titre_francais }}</td>
+	<td contenteditable="true">{{ film.titre_original }}</td>
+	<td contenteditable="true">{{ film.couleur }}</td>
+	<td contenteditable="true">{{ film.pays }}</td>
+	<td contenteditable="true">{{ film.date }}</td>
+	<td contenteditable="true">{{ film.duree }}</td>
+	<td><button type="button" class="editButton" id="{{ film.code_film }}">Save</button></td>
+	<td><button type="button" id="deleteButton">Delete</button></td>
+</tr>
+{% endfor %}
+</table>
+
+{% include "newFilm.twig" %}
+{% endblock %}

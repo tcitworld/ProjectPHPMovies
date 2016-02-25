@@ -1,0 +1,13 @@
+{% if film is not null %}
+{{ film.titre_francais }}
+{% if film.titre_francais != film.titre_original %}
+ ou {{ film.titre_original }} en version originale 
+{% endif %} est un film {{ film.couleur == "couleur   " ? "en couleur" : "en noir & blanc" }} du pays {{ film.pays }} sorti en {{ film.date }} qui dure {{ film.duree }} minutes.<br>
+{% else %}
+Ce film n'existe pas !
+{% endif %}
+<br>
+<a href="../delete/{{ film.code_film }}">Supprimer</a> ce film.
+<br>
+<a href="../updateForm/{{ film.code_film }}">Mettre à jour</a> ce film
+<a href="../">Retour</a> à la page d'accueil.

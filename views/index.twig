@@ -4,7 +4,8 @@ Index des films
 {% endblock %}
 {% block content %}
 Liste des films :
-<table>
+<table id="tbl">
+<thead>
 <tr>
 	<th>Titre français</th>
 	<th>Titre original</th>
@@ -15,19 +16,21 @@ Liste des films :
 	<th>Editer</th>
 	<th>Supprimer</th>
 </tr>
+</thead>
+<tbody>
 {% for film in films %}
 <tr class="row-{{ film.code_film }}">
-	<td contenteditable="true" >{{ film.titre_francais }}</td>
-	<td contenteditable="true">{{ film.titre_original }}</td>
-	<td contenteditable="true">{{ film.couleur }}</td>
-	<td contenteditable="true">{{ film.pays }}</td>
-	<td contenteditable="true">{{ film.date }}</td>
-	<td contenteditable="true">{{ film.duree }}</td>
-	<td><button type="button" class="editButton" data-id="{{ film.code_film }}">Save</button></td>
+	<td>{{ film.titre_francais }}</td>
+	<td>{{ film.titre_original }}</td>
+	<td>{{ film.couleur }}</td>
+	<td>{{ film.pays }}</td>
+	<td>{{ film.date }}</td>
+	<td>{{ film.duree }}</td>
+	<td><button type="button" class="editButton" data-id="{{ film.code_film }}">Edit</button></td>
 	<td><button type="button" class="deleteButton" data-id="{{ film.code_film }}">Delete</button></td>
 </tr>
 {% endfor %}
+</tbody>
 </table>
-
 {% include "newFilm.twig" %}
 {% endblock %}

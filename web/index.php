@@ -54,12 +54,13 @@ $app->get('/view/{id}', function($id) use($app) {
     return $app['twig']->render('view.twig',array('film' => $res)); 
 }); 
 
-$app->get('/', function() use($app) {
-	$query = $app['pdo']->prepare('SELECT * FROM films LIMIT 0,10');
+$app->get('/{page}', function($page) use($app) {
+	$query = $app['pdo']->prepare('SELECT * FROM films');
 	$query->execute();
 	$res = $query->fetchAll();
+    $nbRows = $query->rowCount();
 	return $app['twig']->render('index.twig',array('films' => $res));
-});
+})->value('page',1);
 
 $app->post('/create', function(Request $request) use($app) {
 	$titrefr = $request->get('titrefr');

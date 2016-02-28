@@ -10,7 +10,7 @@ $('.editButton').click(function() {
 		$.ajax({
 			method: "POST",
 			url: "edit/"+id,
-			data: {titrefr: titrefr, 
+			data: {titrefr: titrefr,
 					titrevo: titrevo,
 					couleur: couleur,
 					pays: pays,

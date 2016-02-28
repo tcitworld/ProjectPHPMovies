@@ -21,10 +21,10 @@ $app->register(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
             'host'     => 'localhost',
-            'dbname'   => 'dbcitharel',
+            'dbname'   => 'Moviez',
             'port'     => 3306,
-            'user'     => 'citharel',
-            'password' => 'mdpmysql',
+            'user'     => 'root',
+            'password' => 'Lory1992/',
         ),
         // optional PDO attributes used in PDO constructor 4th argument driver_options
         // some PDO attributes can be used only as PDO driver_options
@@ -73,7 +73,6 @@ $app->post('/create', function(Request $request) use($app) {
 	$query = $app['pdo']->prepare('INSERT INTO films VALUES (0,?,?,?,?,?,?,NULL,NULL)');
 	$query->execute(array($titrevo,$titrefr,$pays,$date,$duree,$couleur));
 
-	return 'Le film a bien été ajouté!<br><a href="../">Retour à l\'accueil</a>';
 });
 
 $app->get('/createForm', function(Request $request) use($app) {

@@ -1,17 +1,17 @@
-<form action="create" method="POST">
+<button type="button" class="createM">Créer un film</button>
+<form hidden class='form' action="create" method="POST">
 <label for="titrefr">Titre français</label>
 <input type="text" name="titrefr"><br>
 <label for="titrevo">Titre original</label>
 <input type="text" name="titrevo"><br>
-<label for="nb">Noir &amp; Blanc</label>
-<input type="radio" name="couleur" value="nb"><br>
-<label for="couleur">Couleur</label>
-<input type="radio" name="couleur" value="couleur"><br>
+<label for="nb">Noir &amp; Blanc / Couleur</label>
+<input type="text" name="couleur"><br>
 <label for="pays">Pays</label>
 <input type="text" name="pays"><br>
 <label for="date">Date</label>
 <input type="date" name="date"><br>
 <label for="duree">Durée</label>
 <input type="number" name="duree"><br>
-<button type="submit">Envoyer</button>
+<button type="button" class="createButton">Envoyer</button>
 </form>
+<div hidden class="saved">Le film a bien été enregistré</div>

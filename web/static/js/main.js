@@ -41,3 +41,34 @@ $('.deleteButton').click(function() {
 	})
 });
 $('#tbl').DataTable();
+
+$('.createM').click(function(){
+	form = $('.form');
+	form.show();
+});
+
+$('.createButton').click(function() {
+	form = $('.form');
+	message = $('.saved');
+	titrefr = $('input[name=titrefr]').val();
+	titrevo = $('input[name=titrevo]').val();
+	couleur = $('input[name=couleur]').val();
+	pays = $('input[name=pays]').val();
+	date = $('input[name=date]').val();
+	duree = $('input[name=duree]').val();
+	$.ajax({
+		method: "POST",
+		url: "create",
+		data: {titrefr: titrefr,
+				titrevo: titrevo,
+				couleur: couleur,
+				pays: pays,
+				date: date,
+				duree: duree
+			}
+	}).done(function() {
+		form.hide();
+		message.show().delay(2000).slideUp('slow');
+
+	});
+});

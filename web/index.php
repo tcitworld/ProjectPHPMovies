@@ -9,6 +9,10 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Application(); 
 $app['debug'] = true;
 
+ini_set('display_errors', 1);
+error_reporting(-1);
+error_reporting(E_ALL ^ E_STRICT);
+
 $app->register(
     // you can customize services and options prefix with the provider first argument (default = 'pdo')
     new PDOServiceProvider('pdo'),
@@ -16,7 +20,7 @@ $app->register(
         'pdo.server'   => array(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
-            'host'     => 'servinfo-db',
+            'host'     => 'localhost',
             'dbname'   => 'dbcitharel',
             'port'     => 3306,
             'user'     => 'citharel',
@@ -58,15 +62,17 @@ $app->get('/', function() use($app) {
 });
 
 $app->post('/create', function(Request $request) use($app) {
-	$nomMembre = $request->get('nom');
-	$prenomMembre = $request->get('prenom');
-	$naissanceMembre = date('Y-m-d',strtotime($request->get('naissance')));
-	$villeMembre = $request->get('ville');
+	$titrefr = $request->get('titrefr');
+	$titrevo = $request->get('titrevo');
+	$couleur = $request->get('couleur');
+	$pays = $request->get('pays');
+    $date = $request->get('date');
+    $duree = $request->get('duree');
 
-	$query = $app['pdo']->prepare('INSERT INTO CARNET VALUES (0,?,?,?,?)');
-	$query->execute(array($nomMembre,$prenomMembre,$naissanceMembre,$villeMembre));
+	$query = $app['pdo']->prepare('INSERT INTO films VALUES (0,?,?,?,?,?,?,NULL,NULL)');
+	$query->execute(array($titrevo,$titrefr,$pays,$date,$duree,$couleur));
 
-	return 'Le membre a bien été inséré !<br><a href="../">Retour à l\'accueil</a>';
+	return 'Le film a bien été ajouté!<br><a href="../">Retour à l\'accueil</a>';
 });
 
 $app->get('/createForm', function(Request $request) use($app) {
@@ -74,21 +80,22 @@ $app->get('/createForm', function(Request $request) use($app) {
 });
 
 $app->get('/delete/{id}', function($id) use($app) {
-	$query = $app['pdo']->prepare('DELETE FROM CARNET WHERE ID=?');
+	$query = $app['pdo']->prepare('DELETE FROM films WHERE code_film=?');
 	$query->execute(array($id));
 	return 'Le membre a bien été supprimé<br><a href="../">Retour à l\'accueil</a>';
 });
 
-$app->post('/update/{id}', function($id) use($app) {
-	$query = $app['pdo']->prepare('UPDATE CARNET WHERE ID=?');
-	$query->execute(array($id));
-});
-
-$app->get('/updateForm/{id}', function($id) use($app) {
-	$query = $app['pdo']->prepare('SELECT * FROM CARNET WHERE ID=?');
-	$query->execute(array($id));
-	$res = $query->fetch();
-    return $app['twig']->render('edit.twig',array('membre' => $res));
+$app->post('/edit/{id}', function(Request $request, $id) use($app) {
+	$query = $app['pdo']->prepare('UPDATE films SET titre_original=:titrevo, titre_francais=:titrefr, pays=:pays, date=:date, duree=:duree, couleur=:couleur WHERE code_film=:codefilm');
+    $query->bindParam(':titrevo', $request->get('titrevo'));
+    $query->bindParam(':titrefr', $request->get('titrefr'));
+    $query->bindParam(':couleur', $request->get('couleur'));
+    $query->bindParam(':pays', $request->get('pays'));
+    $query->bindParam(':date', $request->get('date'));
+    $query->bindParam(':duree', $request->get('duree'));
+    $query->bindParam(':codefilm', $id);
+	$query->execute();
+    return json_encode(array('ok'));
 });
 
 $app->run(); 

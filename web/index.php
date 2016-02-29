@@ -20,7 +20,7 @@ $app->register(
         'pdo.server'   => array(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
-            'host'     => 'localhost',
+            'host'     => 'servinfo-db',
             'dbname'   => 'dbcitharel',
             'port'     => 3306,
             'user'     => 'citharel',
@@ -44,18 +44,9 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
 ));
 
-// get PDO connection
-$pdo = $app['pdo'];
-
-$app->get('/view/{id}', function($id) use($app) {
-	$query = $app['pdo']->prepare('SELECT * FROM films WHERE code_film=?');
-	$query->execute(array($id));
-	$res = $query->fetch();
-    return $app['twig']->render('view.twig',array('film' => $res)); 
-}); 
 
 $app->get('/{page}', function($page) use($app) {
-	$query = $app['pdo']->prepare('SELECT * FROM films');
+	$query = $app['pdo']->prepare('SELECT DISTINCT * from films RIGHT JOIN acteurs ON films.code_film = acteurs.ref_code_film INNER JOIN individus ON acteurs.ref_code_acteur = individus.code_indiv ');
 	$query->execute();
 	$res = $query->fetchAll();
     $nbRows = $query->rowCount();
@@ -76,9 +67,6 @@ $app->post('/create', function(Request $request) use($app) {
 
 });
 
-$app->get('/createForm', function(Request $request) use($app) {
-	return $app['twig']->render('newMembre.twig');
-});
 
 $app->get('/delete/{id}', function($id) use($app) {
 	$query = $app['pdo']->prepare('DELETE FROM films WHERE code_film=?');

@@ -13,8 +13,9 @@ Liste des films :
 	<th>Pays</th>
 	<th>Date</th>
 	<th>Durée</th>
-	<th>Editer</th>
-	<th>Supprimer</th>
+	<th>Acteur</th>
+	<th>Edit</th>
+	<th>Delete</th>
 </tr>
 </thead>
 <tbody>
@@ -26,6 +27,7 @@ Liste des films :
 	<td>{{ film.pays }}</td>
 	<td>{{ film.date }}</td>
 	<td>{{ film.duree }}</td>
+	<td>{{ film.prenom }} {{ film.nom }} ({{film.date_naiss}} - {{ film.date_mort != 0 ? film.date_mort }})</td>
 	<td><button type="button" class="editButton" data-id="{{ film.code_film }}">Edit</button></td>
 	<td><button type="button" class="deleteButton" data-id="{{ film.code_film }}">Delete</button></td>
 </tr>

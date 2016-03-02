@@ -44,7 +44,8 @@ $('#tbl').DataTable();
 
 $('.createM').click(function(){
 	form = $('.form');
-	form.show();
+	$('#details').hide();
+	form.toggle();
 });
 
 $('.createButton').click(function() {
@@ -70,5 +71,27 @@ $('.createButton').click(function() {
 		form.hide();
 		message.show().delay(2000).slideUp('slow');
 
+	});
+});
+
+$('.detailsButton').click(function() {
+	id = $(this).attr('data-id');
+	$.ajax({
+		method: "GET",
+		url: "details/"+id,
+	}).done(function(data) {
+		$('#details').show();
+		$(".detailGenre").html('');
+		for (var i = data["genres"].length; i >= 0; i--) {
+			if (typeof(data["genres"][i]) != "undefined") {
+				$(".detailGenre").append('<li>' + data["genres"][i]['nom_genre'] + '</li>')
+			}
+		}
+		$(".detailActeurs").html('');
+		for (var i = data["acteurs"].length; i >= 0; i--) {
+			if (typeof(data["acteurs"][i]) != "undefined") {
+				$(".detailActeurs").append('<li>' + data["acteurs"][i]['nom'] + " " + data["acteurs"][i]['prenom'] + '</li>')
+			}
+		}
 	});
 });

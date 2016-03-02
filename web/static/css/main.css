@@ -4,3 +4,11 @@ tr:nth-child(odd) {
 table {
 	border: 3px solid;
 }
+li {
+	display: inline-block;
+	margin: 0px 5px;
+}
+
+#details {
+	display: none;
+}

@@ -4,7 +4,8 @@ use Csanquer\Silex\PdoServiceProvider\Provider\PDOServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 
-require_once __DIR__.'/../vendor/autoload.php'; 
+require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../Model/Films.class.php';
 
 $app = new Application(); 
 $app['debug'] = true;
@@ -20,7 +21,7 @@ $app->register(
         'pdo.server'   => array(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
-            'host'     => 'servinfo-db',
+            'host'     => 'localhost',
             'dbname'   => 'dbcitharel',
             'port'     => 3306,
             'user'     => 'citharel',
@@ -45,13 +46,10 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 
-$app->get('/{page}', function($page) use($app) {
-	$query = $app['pdo']->prepare('SELECT DISTINCT * from films RIGHT JOIN acteurs ON films.code_film = acteurs.ref_code_film INNER JOIN individus ON acteurs.ref_code_acteur = individus.code_indiv ');
-	$query->execute();
-	$res = $query->fetchAll();
-    $nbRows = $query->rowCount();
-	return $app['twig']->render('index.twig',array('films' => $res));
-})->value('page',1);
+$app->get('/', function() use($app) {
+    $films = new Films($app['pdo']);
+	return $app['twig']->render('index.twig',array('films' => $films->getFilms()));
+});
 
 $app->post('/create', function(Request $request) use($app) {
 	$titrefr = $request->get('titrefr');
@@ -61,17 +59,20 @@ $app->post('/create', function(Request $request) use($app) {
     $date = $request->get('date');
     $duree = $request->get('duree');
 
-	$query = $app['pdo']->prepare('INSERT INTO films VALUES (0,?,?,?,?,?,?,NULL,NULL)');
-	$query->execute(array($titrevo,$titrefr,$pays,$date,$duree,$couleur));
-    return json_encode(array('ok'));
+	$films->newFilm(array($titrevo,$titrefr,$pays,$date,$duree,$couleur));
+    return $app->json(array('ok'));
 
 });
 
+$app->get('/details/{id}', function($id) use($app) {
+    $films = new Films($app['pdo']);
+    return $app->json(array("genres" => $films->getGenres($id), "acteurs" => $films->getActeurs($id)));
+});
 
 $app->get('/delete/{id}', function($id) use($app) {
 	$query = $app['pdo']->prepare('DELETE FROM films WHERE code_film=?');
 	$query->execute(array($id));
-	return 'Le membre a bien été supprimé<br><a href="../">Retour à l\'accueil</a>';
+	return $app->json(array('ok'));
 });
 
 $app->post('/edit/{id}', function(Request $request, $id) use($app) {
@@ -84,7 +85,7 @@ $app->post('/edit/{id}', function(Request $request, $id) use($app) {
     $query->bindParam(':duree', $request->get('duree'));
     $query->bindParam(':codefilm', $id);
 	$query->execute();
-    return json_encode(array('ok'));
+    return $app->json(array('ok'));
 });
 
 $app->run(); 

@@ -21,7 +21,7 @@ $app->register(
         'pdo.server'   => array(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
-            'host'     => 'localhost',
+            'host'     => 'servinfo-db',
             'dbname'   => 'dbcitharel',
             'port'     => 3306,
             'user'     => 'citharel',
@@ -59,6 +59,7 @@ $app->post('/create', function(Request $request) use($app) {
     $date = $request->get('date');
     $duree = $request->get('duree');
 
+    $films = new Films($app['pdo']);
 	$films->newFilm(array($titrevo,$titrefr,$pays,$date,$duree,$couleur));
     return $app->json(array('ok'));
 

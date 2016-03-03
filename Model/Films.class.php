@@ -35,7 +35,7 @@ class Films
 	}
 
 	public function newFilm($fields) {
-		$query = $app['pdo']->prepare('INSERT INTO films VALUES (0,?,?,?,?,?,?,NULL,NULL)');
+		$query = $this->pdo->prepare('INSERT INTO films VALUES (0,?,?,?,?,?,?,NULL,NULL)');
 		$query->execute($fields);
 	}
 

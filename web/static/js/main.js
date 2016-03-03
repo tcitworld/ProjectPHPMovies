@@ -80,7 +80,7 @@ $('.detailsButton').click(function() {
 		method: "GET",
 		url: "details/"+id,
 	}).done(function(data) {
-		$('#details').show();
+		$('#details').toggle();
 		$(".detailGenre").html('');
 		for (var i = data["genres"].length; i >= 0; i--) {
 			if (typeof(data["genres"][i]) != "undefined") {

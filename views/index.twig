@@ -12,6 +12,7 @@ Index des films
 	<th>Pays</th>
 	<th>Date</th>
 	<th>Durée</th>
+	<th>Realisateur</th>
 	<th>Edit</th>
 	<th>Delete</th>
 	<th>Details</th>
@@ -26,22 +27,36 @@ Index des films
 	<td>{{ film.pays }}</td>
 	<td>{{ film.date }}</td>
 	<td>{{ film.duree }}</td>
-	<td><button type="button" class="editButton" data-id="{{ film.code_film }}">Edit</button></td>
-	<td><button type="button" class="deleteButton" data-id="{{ film.code_film }}">Delete</button></td>
-	<td><button type="button" class="detailsButton" data-id="{{ film.code_film }}">Details</button></td>
+	<td>{{ film.prenom }} {{ film.nom }} ({{ film.date_naiss }} - {{ film.date_mort == 0 ? 'not yet' : film.date_mort }})</td>
+	<td><button type="button" class="editButton btn btn-default btn-sm" data-id="{{ film.code_film }}">Edit</button></td>
+	<td><button type="button" class="deleteButton btn btn-danger btn-sm" data-id="{{ film.code_film }}">Delete</button></td>
+	<td><button type="button" class="detailsButton btn btn-info btn-sm" data-id="{{ film.code_film }}">Details</button></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
-{% include "newFilm.twig" %}
-<div id="details">
-Genres :
-<ul class="detailGenre">
 
-</ul>
-Acteurs :
-<ul class="detailActeurs">
 
-</ul>
+<button type="button" class="createM btn btn-success">Créer un film</button>
+
+<div class="row">
+	{% include "newFilm.twig" %}
+	<div id="details" class="col-md-5">
+	<img id="poster" src="" alt="">
+	<h2 id="titre"></h2>
+	<em>Année : <span id="year"></span></em>
+	<em>Rated : <span id="rated"></span></em>
+	<em>Released : <span id="released"></span></em>
+	<p id="plot"></p>
+
+	Genres :
+	<ul class="detailGenre">
+
+	</ul>
+	Acteurs :
+	<ul class="detailActeurs">
+
+	</ul>
+	</div>
 </div>
 {% endblock %}

@@ -21,7 +21,7 @@ $app->register(
         'pdo.server'   => array(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
-            'host'     => 'servinfo-db',
+            'host'     => 'localhost',
             'dbname'   => 'dbcitharel',
             'port'     => 3306,
             'user'     => 'citharel',
@@ -67,25 +67,18 @@ $app->post('/create', function(Request $request) use($app) {
 
 $app->get('/details/{id}', function($id) use($app) {
     $films = new Films($app['pdo']);
-    return $app->json(array("genres" => $films->getGenres($id), "acteurs" => $films->getActeurs($id)));
+    return $app->json(array("genres" => $films->getGenres($id), "acteurs" => $films->getActeurs($id), "film" => $films->getFilm($id)));
 });
 
 $app->get('/delete/{id}', function($id) use($app) {
-	$query = $app['pdo']->prepare('DELETE FROM films WHERE code_film=?');
-	$query->execute(array($id));
+	$films = new Films($app['pdo']);
+    $films->delete($id);
 	return $app->json(array('ok'));
 });
 
 $app->post('/edit/{id}', function(Request $request, $id) use($app) {
-	$query = $app['pdo']->prepare('UPDATE films SET titre_original=:titrevo, titre_francais=:titrefr, pays=:pays, date=:date, duree=:duree, couleur=:couleur WHERE code_film=:codefilm');
-    $query->bindParam(':titrevo', $request->get('titrevo'));
-    $query->bindParam(':titrefr', $request->get('titrefr'));
-    $query->bindParam(':couleur', $request->get('couleur'));
-    $query->bindParam(':pays', $request->get('pays'));
-    $query->bindParam(':date', $request->get('date'));
-    $query->bindParam(':duree', $request->get('duree'));
-    $query->bindParam(':codefilm', $id);
-	$query->execute();
+    $films = new Films($app['pdo']);
+    $films->editFilm($request->get('titrevo'), $request->get('titrefr'), $request->get('couleur'), $request->get('pays'), $request->get('date'), $request->get('duree'), $id);
     return $app->json(array('ok'));
 });
 

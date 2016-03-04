@@ -9,6 +9,15 @@ li {
 	margin: 0px 5px;
 }
 
-#details, .form {
+#details, #rated, #released, #plot {
 	display: none;
+}
+
+.hidden-ct {
+	visibility: hidden;
+}
+
+#poster {
+	float: left;
+	margin-right: 10px;
 }

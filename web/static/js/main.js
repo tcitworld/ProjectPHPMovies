@@ -17,10 +17,12 @@ $('.editButton').click(function() {
 					date: date,
 					duree: duree
 				}
-		}).done(function() {
-			buttontd = $('.row-' + id + ' td').eq(6);
+		}).success(function() {
+			buttontd = $('.row-' + id + ' td').eq(7);
 			buttontd.text('✔');
 			buttontd.css('color','green');
+			$('.row-' + id + ' td:not(:has(button))').attr('contenteditable','false');
+			$('.row-' + id).css('background','#fff');
 		});
 	} else {
 		$('.row-' + id + ' td:not(:has(button))').attr('contenteditable','true');
@@ -36,7 +38,7 @@ $('.deleteButton').click(function() {
 	$.ajax({
 		method: "GET",
 		url: "delete/"+id,
-	}).done(function() {
+	}).success(function() {
 		$('.row-' + id).slideUp();
 	})
 });
@@ -44,8 +46,7 @@ $('#tbl').DataTable();
 
 $('.createM').click(function(){
 	form = $('.form');
-	$('#details').hide();
-	form.toggle();
+	form.toggleClass('hidden-ct');
 });
 
 $('.createButton').click(function() {
@@ -67,20 +68,38 @@ $('.createButton').click(function() {
 				date: date,
 				duree: duree
 			}
-	}).done(function() {
+	}).success(function() {
 		form.hide();
 		message.show().delay(2000).slideUp('slow');
 
 	});
 });
 
-$('.detailsButton').click(function() {
+$(document).on("click",".detailsButton", function() {
+
+	/*
+	 * Reset text ids
+	 */
+	$("#titre").text('');
+	$("#year").text('');
+	$("#rated").text('');
+	$("#released").text('');
+	$("#plot").text('');
+	$("#poster").attr('src','');
+
+	$('html, body').animate({
+        scrollTop: $("#details").offset().top
+    }, 1000);
+
+
 	id = $(this).attr('data-id');
+	console.log(id);
 	$.ajax({
 		method: "GET",
+		datatype: "json",
 		url: "details/"+id,
-	}).done(function(data) {
-		$('#details').toggle();
+	}).success(function(data) {
+		$('#details').show();
 		$(".detailGenre").html('');
 		for (var i = data["genres"].length; i >= 0; i--) {
 			if (typeof(data["genres"][i]) != "undefined") {
@@ -93,5 +112,25 @@ $('.detailsButton').click(function() {
 				$(".detailActeurs").append('<li>' + data["acteurs"][i]['nom'] + " " + data["acteurs"][i]['prenom'] + '</li>')
 			}
 		}
+
+		// OMDB API
+		$.ajax({
+			method: "GET",
+			url: "http://www.omdbapi.com/",
+			data: { t: data["film"]["titre_original"], plot: "full", r: "json" }
+		}).success(function(dataAPI) {
+			if (dataAPI['Response']) {
+				console.log(dataAPI);
+				$("#titre").text(dataAPI['Title']);
+				$("#year").text(dataAPI['Year']);
+				$("#rated").text(dataAPI['Rated']).show();
+				$("#released").text(dataAPI['Released']).show();
+				$("#plot").text(dataAPI['Plot']).show();
+				$("#poster").attr('src',dataAPI['Poster']);
+			} else {
+				$("#titre").text(data["film"]["titre_original"]);
+				$("#year").text(data["film"]["date"]);
+			}
+		});
 	});
 });

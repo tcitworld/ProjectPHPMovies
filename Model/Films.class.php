@@ -6,20 +6,22 @@
 class Films
 {
 	private $pdo;
-	private $acteurs;
-	private $genres;
 
 	function __construct($pdo)
 	{
 		$this->pdo = $pdo;
-		$this->acteurs = array();
-		$this->genres = array();
 	}
 
 	public function getFilms() {
-		$query = $this->pdo->prepare('SELECT DISTINCT * from films');
+		$query = $this->pdo->prepare('SELECT DISTINCT * from films INNER JOIN individus ON films.realisateur = individus.code_indiv');
 		$query->execute();
 		return $query->fetchAll();
+	}
+
+	public function getFilm($filmId) {
+		$query = $this->pdo->prepare('SELECT DISTINCT * from films INNER JOIN individus ON films.realisateur = individus.code_indiv WHERE code_film=?');
+		$query->execute(array($filmId));
+		return $query->fetch();
 	}
 
 	public function getActeurs($filmId) {
@@ -37,6 +39,23 @@ class Films
 	public function newFilm($fields) {
 		$query = $this->pdo->prepare('INSERT INTO films VALUES (0,?,?,?,?,?,?,NULL,NULL)');
 		$query->execute($fields);
+	}
+
+	public function editFilm($titrevo, $titrefr, $couleur, $pays, $date, $duree, $id) {
+		$query = $this->pdo->prepare('UPDATE films SET titre_original=:titrevo, titre_francais=:titrefr, pays=:pays, date=:date, duree=:duree, couleur=:couleur WHERE code_film=:codefilm');
+		$query->bindParam(':titrevo', $titrevo);
+	    $query->bindParam(':titrefr', $titrefr);
+	    $query->bindParam(':couleur', $couleur);
+	    $query->bindParam(':pays', $pays);
+	    $query->bindParam(':date', $date);
+	    $query->bindParam(':duree', $duree);
+	    $query->bindParam(':codefilm', $id);
+	    $query->execute();
+	}
+
+	public function delete($filmId) {
+		$query = $this->pdo->prepare('DELETE FROM films WHERE code_film=?');
+		$query->execute(array($id));
 	}
 
 }

@@ -1,66 +1,62 @@
-<button type="button" class="createM btn btn-success">Créer un film</button>
 
-<div class="row form">
-	<div class=".col-md-6 .col-md-offset-3">
+<div class="col-md-5 form hidden-ct">
 
-		<form action="create" class="form-horizontal" method="POST">
+	<form action="create" class="form-horizontal" method="POST">
 
-		<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-		<div class="form-group">
-			<label for="titrefr" class="col-sm-2 control-label">Titre français</label>
-			<div class="col-sm-4">
-				<input type="text" class="form-control" name="titrefr"><br>
-			</div>
+	<div class="form-group">
+		<label for="titrefr" class="col-sm-3 control-label">Titre français</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" name="titrefr"><br>
 		</div>
-
-		<div class="form-group">
-			<label for="titrevo" class="col-sm-2 control-label">Titre original</label>
-			<div class="col-sm-4">
-				<input type="text" class="form-control" name="titrevo"><br>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label for="nb" class="col-sm-2 control-label">Noir &amp; Blanc / Couleur</label>
-			  <label>
-			    <input type="radio" name="couleur" id="optionsRadios1" value="couleur   " checked>
-			    Couleur
-			  </label>
-			  <label>
-			    <input type="radio" name="couleur" id="optionsRadios2" value="NB        ">
-			    N &amp; B
-			  </label>
-			  <label>
-			    <input type="radio" name="couleur" id="optionsRadios3" value="NB/couleur">
-			    N &amp; B et couleur
-			  </label>
-		</div>
-
-		<div class="form-group">
-			<label for="pays" class="col-sm-2 control-label">Pays</label>
-			<div class="col-sm-4">
-				<input type="text" class="form-control" name="pays"><br>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label for="date" class="col-sm-2 control-label">Date</label>
-			<div class="col-sm-4">
-				<input type="date" class="form-control" name="date"><br>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<label for="duree" class="col-sm-2 control-label">Durée</label>
-			<div class="col-sm-4">
-				<input type="number" class="form-control" name="duree"><br>
-			</div>
-		</div>
-
-		<button type="button" class="createButton btn btn-primary">Envoyer</button>
-		</form>
-
-		<div hidden class="saved">Le film a bien été enregistré</div>
 	</div>
+
+	<div class="form-group">
+		<label for="titrevo" class="col-sm-3 control-label">Titre original</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" name="titrevo"><br>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="nb" class="col-sm-3 control-label">Noir &amp; Blanc / Couleur</label>
+		  <label>
+		    <input type="radio" name="couleur" id="optionsRadios1" value="couleur   " checked>
+		    Couleur
+		  </label>
+		  <label>
+		    <input type="radio" name="couleur" id="optionsRadios2" value="NB        ">
+		    N &amp; B
+		  </label>
+		  <label>
+		    <input type="radio" name="couleur" id="optionsRadios3" value="NB/couleur">
+		    N &amp; B et couleur
+		  </label>
+	</div>
+
+	<div class="form-group">
+		<label for="pays" class="col-sm-3 control-label">Pays</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" name="pays"><br>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="date" class="col-sm-3 control-label">Date</label>
+		<div class="col-sm-4">
+			<input type="date" class="form-control" name="date"><br>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label for="duree" class="col-sm-3 control-label">Durée</label>
+		<div class="col-sm-4">
+			<input type="number" class="form-control" name="duree"><br>
+		</div>
+	</div>
+
+	<button type="button" class="createButton btn btn-primary">Envoyer</button>
+	</form>
+
+	<div hidden class="saved">Le film a bien été enregistré</div>
 </div>

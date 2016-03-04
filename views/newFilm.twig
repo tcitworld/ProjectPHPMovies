@@ -1,5 +1,5 @@
 
-<div class="col-md-5 form hidden-ct">
+<div class="col-md-7 col-md-offset-3 form hidden-ct">
 
 	<form action="create" class="form-horizontal" method="POST">
 
@@ -55,7 +55,23 @@
 		</div>
 	</div>
 
-	<button type="button" class="createButton btn btn-primary">Envoyer</button>
+	<div class="form-group">
+		<label for="real" class="col-sm-3 control-label">Réalisateur</label>
+		<div class="col-sm-4">
+			<select id="real" name="real" class="form-control">
+			{% for real in reals %}
+				{% if real.code_indiv != '' %}
+			    	<option value="{{ real.code_indiv }}">{{ real.prenom }} {{ real.nom }}</option>
+				{% endif %}
+			{% endfor %} %}
+			</select>
+		</div>
+	</div>
+
+
+	<div class="form-group">
+		<button type="button" class="createButton btn btn-primary center-block">Envoyer</button>
+	</div>
 	</form>
 
 	<div hidden class="saved">Le film a bien été enregistré</div>

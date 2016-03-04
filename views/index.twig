@@ -6,6 +6,7 @@ Index des films
 <table id="tbl">
 <thead>
 <tr>
+	<th>
 	<th>Titre français</th>
 	<th>Titre original</th>
 	<th>Couleur</th>
@@ -15,48 +16,44 @@ Index des films
 	<th>Realisateur</th>
 	<th>Edit</th>
 	<th>Delete</th>
-	<th>Details</th>
 </tr>
 </thead>
 <tbody>
 {% for film in films %}
-<tr class="row-{{ film.code_film }}">
+<tr data-id="{{ film.code_film }}" class="row-{{ film.code_film }}">
+	<td class="details-control"></td>
 	<td>{{ film.titre_francais }}</td>
 	<td>{{ film.titre_original }}</td>
 	<td>{{ film.couleur }}</td>
 	<td>{{ film.pays }}</td>
 	<td>{{ film.date }}</td>
 	<td>{{ film.duree }}</td>
-	<td>{{ film.prenom }} {{ film.nom }} ({{ film.date_naiss }} - {{ film.date_mort == 0 ? 'not yet' : film.date_mort }})</td>
+	<td data-id="{{ film.realisateur }}">{{ film.prenom }} {{ film.nom }} ({{ film.date_naiss }} - {{ film.date_mort == 0 ? 'not yet' : film.date_mort }})</td>
 	<td><button type="button" class="editButton btn btn-default btn-sm" data-id="{{ film.code_film }}">Edit</button></td>
 	<td><button type="button" class="deleteButton btn btn-danger btn-sm" data-id="{{ film.code_film }}">Delete</button></td>
-	<td><button type="button" class="detailsButton btn btn-info btn-sm" data-id="{{ film.code_film }}">Details</button></td>
 </tr>
 {% endfor %}
 </tbody>
+<tfoot>
+<tr>
+	<th>
+	<th>Titre français</th>
+	<th>Titre original</th>
+	<th>Couleur</th>
+	<th>Pays</th>
+	<th>Date</th>
+	<th>Durée</th>
+	<th>Realisateur</th>
+	<th>Edit</th>
+	<th>Delete</th>
+</tr>
+</tfoot>
 </table>
 
 
 <button type="button" class="createM btn btn-success">Créer un film</button>
 
-<div class="row">
+<div class="row" id="newFilm">
 	{% include "newFilm.twig" %}
-	<div id="details" class="col-md-5">
-	<img id="poster" src="" alt="">
-	<h2 id="titre"></h2>
-	<em>Année : <span id="year"></span></em>
-	<em>Rated : <span id="rated"></span></em>
-	<em>Released : <span id="released"></span></em>
-	<p id="plot"></p>
-
-	Genres :
-	<ul class="detailGenre">
-
-	</ul>
-	Acteurs :
-	<ul class="detailActeurs">
-
-	</ul>
-	</div>
 </div>
 {% endblock %}

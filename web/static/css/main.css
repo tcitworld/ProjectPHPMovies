@@ -1,6 +1,11 @@
-tr:nth-child(odd) {
-	background-color: #58ACFA;
+#tbl .odd {
+	background-color: #EEE;
 }
+
+#tbl .even {
+	background-color: #DDD;
+}
+
 table {
 	border: 3px solid;
 }
@@ -9,15 +14,19 @@ li {
 	margin: 0px 5px;
 }
 
-#details, #rated, #released, #plot {
+#newFilm {
 	display: none;
-}
-
-.hidden-ct {
-	visibility: hidden;
 }
 
 #poster {
 	float: left;
 	margin-right: 10px;
+}
+
+td.details-control {
+    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
 }

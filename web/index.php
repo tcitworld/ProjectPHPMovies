@@ -21,7 +21,7 @@ $app->register(
         'pdo.server'   => array(
             // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
             'driver'   => 'mysql',
-            'host'     => 'localhost',
+            'host'     => 'servinfo-db',
             'dbname'   => 'dbcitharel',
             'port'     => 3306,
             'user'     => 'citharel',
@@ -48,7 +48,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 $app->get('/', function() use($app) {
     $films = new Films($app['pdo']);
-	return $app['twig']->render('index.twig',array('films' => $films->getFilms()));
+	return $app['twig']->render('index.twig',array('films' => $films->getFilms(), 'reals' => $films->getReals()));
 });
 
 $app->post('/create', function(Request $request) use($app) {
@@ -58,9 +58,10 @@ $app->post('/create', function(Request $request) use($app) {
 	$pays = $request->get('pays');
     $date = $request->get('date');
     $duree = $request->get('duree');
+    $real = $request->get('real');
 
     $films = new Films($app['pdo']);
-	$films->newFilm(array($titrevo,$titrefr,$pays,$date,$duree,$couleur));
+	$films->newFilm(array($titrevo,$titrefr,$pays,$date,$duree,$couleur,$real,''));
     return $app->json(array('ok'));
 
 });
@@ -78,7 +79,7 @@ $app->get('/delete/{id}', function($id) use($app) {
 
 $app->post('/edit/{id}', function(Request $request, $id) use($app) {
     $films = new Films($app['pdo']);
-    $films->editFilm($request->get('titrevo'), $request->get('titrefr'), $request->get('couleur'), $request->get('pays'), $request->get('date'), $request->get('duree'), $id);
+    $films->editFilm($request->get('titrevo'), $request->get('titrefr'), $request->get('couleur'), $request->get('pays'), $request->get('date'), $request->get('duree'), $request->get('real'), $id);
     return $app->json(array('ok'));
 });
 

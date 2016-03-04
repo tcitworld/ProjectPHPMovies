@@ -30,3 +30,7 @@ td.details-control {
 tr.details td.details-control {
     background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
 }
+
+.saved p{
+	font-size: 25px;
+}

@@ -1,3 +1,5 @@
+
+// fonction appliquée sur les boutons editButton pour rendre une row editable
 $('html').on('click','.editButton', function() {
 	id = $(this).attr('data-id');
 	$('.row-' + id + ' td:not(:has(button), .details-control)').attr('contenteditable','true');
@@ -9,6 +11,8 @@ $('html').on('click','.editButton', function() {
 	$(this).text("Save");
 });
 
+
+// fonction pour enregistrer les changements effectés sur une row (enregistré dans la base de donnée)
 $('html').on('click','.saveButton', function() {
 	id = $(this).attr('data-id');
 	titrefr = $('.row-' + id + ' td').eq(1).text();
@@ -40,8 +44,11 @@ $('html').on('click','.saveButton', function() {
 		$('.row-' + id).css('background','#eee');
 	});
 });
+
+
 dt = $('#tbl').DataTable();
 
+// fonction pour supprimer une row (une film directement de la base de donnée)
 $('html').on('click','.deleteButton', function() {
 	id = $(this).attr('data-id');
 	if(confirm("Supprimer ?")) {
@@ -54,6 +61,8 @@ $('html').on('click','.deleteButton', function() {
 	}
 });
 
+
+// descend la page sur le formulaire pour la création de film
 $('.createM').click(function(){
 	$('#newFilm').toggle();
 	$('html, body').animate({
@@ -61,6 +70,8 @@ $('.createM').click(function(){
     }, 1000);
 });
 
+
+// fonction appliquée sur le bouton createButton pour créer un nouveau film (ajoute à la BD)
 $('.createButton').click(function() {
 	form = $('.form');
 	message = $('.saved');
@@ -84,12 +95,14 @@ $('.createButton').click(function() {
 			}
 	}).success(function() {
 		form.hide();
-		message.show().delay(2000).slideUp('slow');
+		message.show().delay(2000).fadeOut('slow');
 		dt.row.add(['',titrefr, titrevo, couleur, pays, date, duree, real,'','']).draw();
 
 	});
 });
 
+
+// récupère les infos et les affiches des films grâce http://www.omdbapi.com/
 function format ( id ) {
 	//id = $(this).attr('data-id');
 	var title = '';
@@ -140,6 +153,8 @@ function format ( id ) {
 
 }
 
+// fonction pour ajouter les détails du film dans une nouvelle row
+// https://datatables.net/examples/server_side/row_details.html
 $(document).ready(function() {
  // Array to track the ids of the details displayed rows
     var detailRows = [];

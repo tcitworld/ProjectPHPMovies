@@ -28,6 +28,7 @@ Index des films
 	<td>{{ film.pays }}</td>
 	<td>{{ film.date }}</td>
 	<td>{{ film.duree }}</td>
+	{# si pas de date de mort pour le réalisateur, affiche "not yet" à la la place #}
 	<td data-id="{{ film.realisateur }}">{{ film.prenom }} {{ film.nom }} ({{ film.date_naiss }} - {{ film.date_mort == 0 ? 'not yet' : film.date_mort }})</td>
 	<td><button type="button" class="editButton btn btn-warning btn-sm" data-id="{{ film.code_film }}">Edit</button></td>
 	<td><button type="button" class="deleteButton btn btn-danger btn-sm" data-id="{{ film.code_film }}">Delete</button></td>
@@ -52,6 +53,9 @@ Index des films
 
 
 <button type="button" class="createM btn btn-success">Créer un film</button>
+<div hidden class="saved row">
+	<p class="col-md-9 col-md-offset-3">Le film a bien été enregistré<p>
+</div>
 
 <div class="row" id="newFilm">
 	{% include "newFilm.twig" %}

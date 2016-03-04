@@ -8,33 +8,33 @@ require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/../Model/Films.class.php';
 
 $app = new Application(); 
-$app['debug'] = true;
-
-ini_set('display_errors', 1);
-error_reporting(-1);
-error_reporting(E_ALL ^ E_STRICT);
 
 $app->register(
-    // you can customize services and options prefix with the provider first argument (default = 'pdo')
     new PDOServiceProvider('pdo'),
     array(
         'pdo.server'   => array(
-            // PDO driver to use among : mysql, pgsql , oracle, mssql, sqlite, dblib
+            /**
+             *
+             * Paramétrages base de données
+             *
+             * - host : localhost/servinfo-db
+             * - dbname : nom de la base de données
+             * - user : votre user
+             * - password : le mot de passe associé à cet user
+             * 
+             * Les autres paramètres sont à laisser par défaut.
+             *
+             */
             'driver'   => 'mysql',
-            'host'     => 'servinfo-db',
-            'dbname'   => 'dbcitharel',
+            'host'     => 'localhost',
+            'dbname'   => '',
             'port'     => 3306,
-            'user'     => 'citharel',
-            'password' => 'mdpmysql',
+            'user'     => '',
+            'password' => '',
         ),
-        // optional PDO attributes used in PDO constructor 4th argument driver_options
-        // some PDO attributes can be used only as PDO driver_options
-        // see http://www.php.net/manual/fr/pdo.construct.php
         'pdo.options' => array(
             \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
         ),
-        // optional PDO attributes set with PDO::setAttribute
-        // see http://www.php.net/manual/fr/pdo.setattribute.php
         'pdo.attributes' => array(
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
         ),
@@ -45,12 +45,37 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
 ));
 
-
+/**
+ *
+ * Liste les films
+ * 
+ * @route /
+ *
+ * @return html
+ *
+ */
 $app->get('/', function() use($app) {
     $films = new Films($app['pdo']);
 	return $app['twig']->render('index.twig',array('films' => $films->getFilms(), 'reals' => $films->getReals()));
 });
 
+/**
+ *
+ * Crée un film
+ *
+ * @method POST
+ * @route /create
+ * @param str titrefr
+ * @param str titrevo
+ * @param str couleur
+ * @param str pays
+ * @param str date
+ * @param int duree
+ * @param int real
+ * 
+ * @return json
+ *
+ */
 $app->post('/create', function(Request $request) use($app) {
 	$titrefr = $request->get('titrefr');
 	$titrevo = $request->get('titrevo');
@@ -66,17 +91,50 @@ $app->post('/create', function(Request $request) use($app) {
 
 });
 
+/**
+ *
+ * Donne des détails pour un film
+ *
+ * @method GET
+ * @route /details/{id}
+ * @param int $id
+ *
+ * @return json
+ *
+ */
 $app->get('/details/{id}', function($id) use($app) {
     $films = new Films($app['pdo']);
     return $app->json(array("genres" => $films->getGenres($id), "acteurs" => $films->getActeurs($id), "film" => $films->getFilm($id)));
 });
 
+/**
+ *
+ * Supprime un film
+ *
+ * @method GET
+ * @route /delete/{id}
+ * @param int $id
+ *
+ * @return json
+ *
+ */
 $app->get('/delete/{id}', function($id) use($app) {
 	$films = new Films($app['pdo']);
     $films->delete($id);
 	return $app->json(array('ok'));
 });
 
+/**
+ *
+ * Edite un film
+ *
+ * @method POST
+ * @route /edit/{id}
+ * @param int $id
+ *
+ * @return json
+ *
+ */
 $app->post('/edit/{id}', function(Request $request, $id) use($app) {
     $films = new Films($app['pdo']);
     $films->editFilm($request->get('titrevo'), $request->get('titrefr'), $request->get('couleur'), $request->get('pays'), $request->get('date'), $request->get('duree'), $request->get('real'), $id);

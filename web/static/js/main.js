@@ -2,6 +2,7 @@ $('html').on('click','.editButton', function() {
 	id = $(this).attr('data-id');
 	$('.row-' + id + ' td:not(:has(button), .details-control)').attr('contenteditable','true');
 	$(this).toggleClass('btn-success');
+	$(this).toggleClass('btn-warning');
 	$('.row-' + id).css('background','#ffeb8e');
 	$(this).toggleClass('editButton');
 	$(this).toggleClass('saveButton');
@@ -31,6 +32,7 @@ $('html').on('click','.saveButton', function() {
 	}).success(function() {
 		buttontd = $('.row-' + id + ' td').eq(8);
 		buttontd.children('button').toggleClass('btn-success');
+		buttontd.children('button').toggleClass('btn-warning');
 		buttontd.children('button').toggleClass('saveButton');
 		buttontd.children('button').toggleClass('editButton');
 		buttontd.children('button').text("Edit");

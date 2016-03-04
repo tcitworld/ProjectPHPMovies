@@ -29,7 +29,7 @@ Index des films
 	<td>{{ film.date }}</td>
 	<td>{{ film.duree }}</td>
 	<td data-id="{{ film.realisateur }}">{{ film.prenom }} {{ film.nom }} ({{ film.date_naiss }} - {{ film.date_mort == 0 ? 'not yet' : film.date_mort }})</td>
-	<td><button type="button" class="editButton btn btn-default btn-sm" data-id="{{ film.code_film }}">Edit</button></td>
+	<td><button type="button" class="editButton btn btn-warning btn-sm" data-id="{{ film.code_film }}">Edit</button></td>
 	<td><button type="button" class="deleteButton btn btn-danger btn-sm" data-id="{{ film.code_film }}">Delete</button></td>
 </tr>
 {% endfor %}
